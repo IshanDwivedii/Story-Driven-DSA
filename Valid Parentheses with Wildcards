@@ -1,0 +1,49 @@
+/*
+Valid Parentheses with Wildcards Implementation (Code and Dry Run):
+-------------------------------------------------------------------
+
+// Code Implementation
+class ValidParentheses {
+    public boolean checkValidString(String s) {
+        Stack<Integer> openStack = new Stack<>();
+        Stack<Integer> starStack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                openStack.push(i);
+            } else if (c == '*') {
+                starStack.push(i);
+            } else {
+                if (!openStack.isEmpty()) {
+                    openStack.pop();
+                } else if (!starStack.isEmpty()) {
+                    starStack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        while (!openStack.isEmpty() && !starStack.isEmpty()) {
+            if (openStack.pop() > starStack.pop()) return false;
+        }
+
+        return openStack.isEmpty();
+    }
+}
+
+// Dry Run Example: s = "(*))"
+Step 1: Initialize stacks:
+  openStack = []
+  starStack = []
+
+Step 2: Iterate through s:
+  i=0, '(' → openStack = [0]
+  i=1, '*' → starStack = [1]
+  i=2, ')' → Match '(' → openStack = [], starStack = [1]
+  i=3, ')' → Match '*' → starStack = []
+
+Step 3: Validate remaining:
+  openStack = [], starStack = [] → Valid
+*/
